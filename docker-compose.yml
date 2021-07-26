@@ -1,0 +1,55 @@
+version: '3.3'
+services:
+  php:
+    build:
+      context: ./7.4-apache-buster-xdebug
+      dockerfile: Dockerfile
+    container_name: prdev-php-fpm
+    ports:
+      - "80:80"
+    volumes:
+      - ./volumes/prdev-php:/var/www/html/
+    networks:
+      - backend
+
+  db:
+    image: mariadb:latest
+    container_name: prdev-db
+    restart: always
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_unicode_ci
+    environment:
+      MYSQL_USER: typo3
+      MYSQL_PASSWORD: DBtypo3PW
+      MYSQL_DATABASE: typo3
+      MYSQL_ROOT_PASSWORD: DBrootPW
+    volumes:
+      - ./volumes/prdev-db:/var/lib/mysql
+    networks:
+      - backend
+    ports:
+      - "3006:3006"
+
+  adminer:
+    image: adminer
+    container_name: prdev-adminer
+    restart: always
+    environment:
+        VIRTUAL_HOST: adminer.docker.test
+        VIRTUAL_PORT: 8080
+    networks:
+      - backend
+
+  pma:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: prdev-pma
+    restart: always
+    environment:
+      VIRTUAL_HOST: pma.docker.test
+      VIRTUAL_PORT: 80
+    networks:
+      - backend
+
+networks:
+  backend:
