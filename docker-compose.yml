@@ -21,9 +21,12 @@ services:
       - --collation-server=utf8_unicode_ci
     environment:
       MYSQL_USER: typo3
-      MYSQL_PASSWORD: DBtypo3PW
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
       MYSQL_DATABASE: typo3
-      MYSQL_ROOT_PASSWORD: DBrootPW
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+      - db_password
+      - db_root_password
     volumes:
       - ./volumes/prdev-db:/var/lib/mysql
     networks:
@@ -53,3 +56,9 @@ services:
 
 networks:
   backend:
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  db_root_password:
+    file: ./secrets/db_root_password.txt
