@@ -49,8 +49,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /usr/src/*
 
 # Install xdebug
-RUN pecl install xdebug && docker-php-ext-enable xdebug && \
-    php-ext-xdebug.ini /usr/local/etc/php/conf.d/php-ext-xdebug.ini
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+COPY php-ext-xdebug.ini /usr/local/etc/php/conf.d/php-ext-xdebug.ini
 
 # Download and Unpack TYPO3
 RUN cd /var/www/html && \
