@@ -2,7 +2,7 @@ version: '3.3'
 services:
   php:
     build:
-      context: ./7.4-apache-buster-xdebug
+      context: ./build/7.4-apache-buster-xdebug
       dockerfile: Dockerfile
     container_name: prdev-php-fpm
     ports:
